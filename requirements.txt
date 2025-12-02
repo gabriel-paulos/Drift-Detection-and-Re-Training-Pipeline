@@ -1,0 +1,21 @@
+# Core ML/LLM Framework
+torch
+transformers
+scikit-learn
+datasets
+
+# Data Version Control
+dvc[s3] # Or just dvc if you don't need remote storage
+
+# MLOps & Orchestration
+mlflow # For tracking and Model Registry
+apache-airflow # Or simply use GitHub Actions for orchestration
+
+# Drift Detection
+evidently
+pandas
+numpy
+
+# Serving (Inference)
+fastapi
+uvicorn
