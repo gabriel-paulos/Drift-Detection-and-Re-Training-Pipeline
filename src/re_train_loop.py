@@ -6,12 +6,11 @@ import mlflow
 import os
 
 # Import PEFT components
-from peft import LoraConfig, get_peft_model, TaskType, prepare_model_for_kbit_training
+from peft import LoraConfig, get_peft_model, TaskType
 
-from src.llm_decision_layer import load_llm_head, evaluate_model, LLMDecisionHead
+from src.llm_decision_layer import load_llm_head, evaluate_model
 # Assuming prepare_data_for_retraining is still defined at the bottom or in a helper file
 
-import dspy
 
 # --- LoRA Configuration ---
 LORA_R = 8              # The rank of the update matrices
@@ -98,33 +97,6 @@ def retrain_agent_with_lora(new_data_path="data/new_alignment_data.csv", output_
         print(f"LoRA retraining complete. New model saved and registered.")
 
     return new_accuracy
-
-#Alternatively we could use something like DSPy to prompt optimize to re-align model, will see what difference it makes
-class AgentGoalModule(dspy.Signature):
-    """Classify user intent into Refund, Support, or Security."""
-    input_text = dspy.InputField()
-    goal_label = dspy.OutputField(desc="Refund_Process, Technical_Support, or New_Security_Goal")
-
-class CoTAgent(dspy.Module):
-    def __init__(self):
-        super().__init__()
-        self.predictor = dspy.ChainOfThought(AgentGoalModule)
-
-    def forward(self, input_text):
-        return self.predictor(input_text=input_text)
-
-# 2. Retraining Loop (Replacing your PyTorch loop)
-def dspy_retrain(drifted_examples):
-    # drifted_examples = data from your 'current_logs.csv'
-    optimizer = dspy.BootstrapFewShot(metric=your_accuracy_metric)
-    
-    # This "compiles" a new version of the agent that has 'learned' 
-    # the new goals from the drifted data
-    optimized_agent = optimizer.compile(CoTAgent(), trainset=drifted_examples)
-    
-    # Save the 'optimized prompt' instead of a .pt model
-    optimized_agent.save("model/optimized_agent.json")
-
 
 if __name__ == '__main__':
     # Placeholder/Dummy Data Prep (as defined previously)

@@ -1,21 +1,39 @@
-# Core ML/LLM Framework
+# --- Core ML & LLM ---
 torch
 transformers
 scikit-learn
 datasets
 
-# Data Version Control
-dvc[s3] # Or just dvc if you don't need remote storage
+# --- Agentic Frameworks ---
+langchain
+langchain-community
+langchain-openai
+dspy-ai
+langgraph
 
-# MLOps & Orchestration
-mlflow # For tracking and Model Registry
-apache-airflow # Or simply use GitHub Actions for orchestration
+# --- Parameter Efficient Fine-Tuning ---
+peft                # Core LoRA/Adapter logic
+bitsandbytes        # For 4-bit/8-bit quantization (saving VRAM)
+accelerate          # For efficient model loading and multi-GPU support
+sentencepiece       # Required for many LLM tokenizers
 
-# Drift Detection
+
+# --- Data & Monitoring ---
 evidently
 pandas
 numpy
+dvc[s3]
+mlflow
 
-# Serving (Inference)
+# --- Observability ---
+langsmith
+langfuse
+
+# --- Serving & API ---
 fastapi
 uvicorn
+python-dotenv
+
+# --- Utilities ---
+pydantic>=2.0
+tqdm
